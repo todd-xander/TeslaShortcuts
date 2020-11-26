@@ -10,7 +10,7 @@ Tesla configuration file for [HTTP-Shortcuts](https://github.com/Waboodoo/HTTP-S
 - Click `Setting` icon at top right corner.
 - Click `Import Shortcuts`.
 - Select `Import from Document`.
-- Select the this JSON file.
+- Select the JSON file.
 - Enjoy it!
 
 ## Shortcuts on launcher
