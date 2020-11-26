@@ -27,7 +27,7 @@ TeslaShortcuts preset some shortcuts as launcher shortcut, long press HTTP-short
 - TeslaShortcuts communicates with `https://owner-api.teslamotors.com/` directly, no third-party service could get your privacy information.
 - TeslaShortcuts gets OAuth 2.0 Password Grant with the [same credentials](https://pastebin.com/pS7Z6yyP) used for tesla.com and the mobile apps.
 - All shortcuts are only tested on a Tesla Model 3, with API version 10.
-- After login, your access token & vehicle ID will saved into. If your are going to share your config, or push a pull request to this repo, you **MUST** be careful not to divulge these information (Logout shortcut could clear them).
+- After login, your access token & vehicle ID will saved into the configuration file. If your are going to share your config, or push a pull request to this repo, you **MUST** be careful not to divulge these information (Logout shortcut could clear them).
 - TeslaShortcuts never store your e-mail, password and PIN code, for some shortcuts that require PIN code, you have to input it manually. You can change the variable settings (Variable List -> Chose a variable -> `Edit` -> `[√] Remenber Value`) to allow HTTP-Shortcuts save value if you like.
 
 ## Caveats
