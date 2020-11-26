@@ -1,0 +1,1152 @@
+{
+    "categories": [
+      {
+        "id": "65b54891-8a9b-4cb7-9060-5c903cf055fa",
+        "name": "Manage",
+        "shortcuts": [
+          {
+            "codeOnPrepare": "const t \u003d getVariable(\"tesla_token\");\n\nif (t !\u003d null \u0026\u0026 t.length \u003e 0) {\n    showToast(\"You have logged in!\", \"Alert\");\n    abort();\n}\n\ntriggerShortcut(\"Get Token\");",
+            "executionType": "scripting",
+            "iconName": "flat_color_profle",
+            "id": "f5ecbcf0-2b41-4a2f-b36e-77bab820265a",
+            "name": "Login"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body);\nvar vehicles \u003d {};\nvar ids \u003d {};\nfor (var idx \u003d 0; idx \u003c resp.count; idx++) {\n    vehicles[idx] \u003d resp.response[idx].display_name;\n    ids[idx] \u003d resp.response[idx].id_s;\n}\n\nconst n \u003d showSelection(vehicles);\nif (n) {\n    setVariable(\"tesla_vehicle_id\", ids[n]);\n    showToast(\"Switch Vehicle \" + vehicles[n] + \".\");\n}",
+            "iconName": "flat_color_check",
+            "id": "059145b7-8c1a-42dd-8882-d37f424de27f",
+            "name": "Vehicle Choose",
+            "responseHandling": {
+              "id": "01b7831c-7fc9-4819-b58a-c6d7d054ffd7",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles"
+          },
+          {
+            "codeOnPrepare": "const t \u003d getVariable(\"tesla_token\");\nif (t !\u003d null \u0026\u0026 t.length \u003e 0) {\n    if (confirm(\"Logout, Are you sure?\")) {\n        setVariable(\"tesla_token\", \"\");\n    } else {\n        abort();\n    }\n}\n\nshowDialog(\"You have logged out!\", \"Alert\");",
+            "executionType": "scripting",
+            "iconName": "flat_color_power",
+            "id": "b0be8d35-07b4-4960-9a7c-45ebf72bcb44",
+            "name": "Logout"
+          }
+        ]
+      },
+      {
+        "id": "d8162be0-692f-46ba-a426-6488420c9c17",
+        "name": "State",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_car",
+            "id": "3ac839f7-ba4f-4741-a7b2-19f781c0a893",
+            "name": "Vehicle Info",
+            "responseHandling": {
+              "id": "6ebf29d2-5f54-4ae7-94ce-222e3d280eec",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_colorwheel",
+            "id": "d18c343b-29c1-4efa-8f4c-407adda3b546",
+            "name": "Vehicle Config",
+            "responseHandling": {
+              "id": "61858e56-6c64-4e22-8776-720a867dfc83",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/vehicle_config"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const loc \u003d JSON.parse(response.body).response;\nsendIntent({\n    type: \u0027activity\u0027,\n    action: \u0027android.intent.action.VIEW\u0027,\n    dataUri: \u0027baidumap://map/marker?location\u003d\u0027+loc.native_latitude+\u0027,\u0027+loc.native_longitude+\u0027\u0026coord_type\u003dgcj02\u0026title\u003dmodel3\u0026traffic\u003don\u0026src\u003dandr.baidu.openAPIdemo\u0027,\n});",
+            "iconName": "flat_color_compass",
+            "id": "aca3929c-b936-4140-888b-88594a6feaba",
+            "name": "Location State",
+            "responseHandling": {
+              "id": "87c316da-a28f-40aa-a3e4-2af92e23aed1",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/drive_state"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_art",
+            "id": "c089e361-dec5-4362-b9c9-816225a10565",
+            "name": "GUI Settings",
+            "responseHandling": {
+              "id": "09869430-1705-4476-a021-cf2494e62eb1",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/gui_settings"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_trends",
+            "id": "0622cc87-b5af-4229-833f-891683d756de",
+            "name": "Vehicle State",
+            "responseHandling": {
+              "id": "be828ea0-fdac-4c0d-a7f2-7dfdab320de7",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/vehicle_state"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response. body).response;\n\nif (resp.software_update.status \u003d\u003d \"available\") {\n    if (!confirm(\"New Update \" + resp.software_update.version + \" is ready, scheduling?\")) {\n        abort();\n    }\n    triggerShortcut(\"Scheduling Upgrade\");\n} else if (resp.software_update.status \u003d\u003d \"installing\") {\n    showToast(\"Update \" + resp.software_update.version + \" installing \" + resp.software_update.install_perc + \"%.\");\n} else {\n    showToast(\"Current Version is \" + resp.car_version + \", no avaliable update.\");\n}",
+            "iconName": "flat_color_rocket",
+            "id": "a764133d-7ae0-43a6-ad65-0b531b5fdeaf",
+            "name": "Vehicle Upgrade",
+            "responseHandling": {
+              "id": "8344e6ae-4e59-4d65-b010-1be88a3cdf5f",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/vehicle_state"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n} else {\n    showToast(\"OK\");\n}",
+            "iconName": "flat_color_stop",
+            "id": "e07f7955-3b9e-4286-a676-5c5b72f2c5ff",
+            "method": "POST",
+            "name": "Cancel Upgrade",
+            "responseHandling": {
+              "id": "fa52f933-04ba-407f-94d4-ef5e5098c8f7",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/cancel_software_update"
+          }
+        ]
+      },
+      {
+        "id": "c04f57b6-4999-4157-8711-0590c60fdf10",
+        "name": "Climate",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_windsock",
+            "id": "75e73894-1167-43a1-a7ab-1f1a740d6735",
+            "name": "Climate State",
+            "responseHandling": {
+              "id": "5e326560-cc61-43bc-9fa4-719541e11350",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/climate_state"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nconst temp \u003d getVariable(\u0027temperature_config\u0027);\nshowToast(\u0027Set temperature to \u0027 + temp + \u0027.\u0027);",
+            "iconName": "flat_color_settings",
+            "id": "9404bf77-b8e6-4a47-8118-8b873baf536e",
+            "method": "POST",
+            "name": "AC Temperature",
+            "parameters": [
+              {
+                "id": "5da4d752-aa59-4ef5-8be6-874097bcac10",
+                "key": "driver_temp",
+                "value": "{{80fd801c-78f4-4173-96e9-8f46827ae413}}"
+              },
+              {
+                "id": "92ccc351-5176-4cb1-9ff9-67899474798c",
+                "key": "passenger_temp",
+                "value": "{{80fd801c-78f4-4173-96e9-8f46827ae413}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "900cf801-fa4e-4370-b25b-7f9ce09ae009",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/set_temps"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_hazard",
+            "id": "15af3f37-db42-488a-a2a7-2fd49c13979c",
+            "method": "POST",
+            "name": "AC Switch",
+            "responseHandling": {
+              "id": "bb7cac82-55fc-481f-a7bf-6b88a47115cb",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/{{e7d3293b-ba05-40fb-9c88-bd48fe7aad75}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_cloud",
+            "id": "2cad5fed-3d42-42ec-8c05-f95f0f1f522b",
+            "method": "POST",
+            "name": "Defrost Switch",
+            "parameters": [
+              {
+                "id": "2eb0424a-8f7a-4df7-b620-05471d4838c7",
+                "key": "on",
+                "value": "{{c043aa3a-14d8-44d2-b566-eff8957d4e75}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "ce072092-33eb-4e20-b38b-a0a1516f0a81",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/set_preconditioning_max"
+          }
+        ]
+      },
+      {
+        "id": "757bf7ea-fb27-43cc-9bf7-2a0152e543bc",
+        "name": "Media",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_media_play",
+            "id": "2cc79710-6718-4e0d-a803-e9a6021543e3",
+            "method": "POST",
+            "name": "Play/Pause",
+            "responseHandling": {
+              "id": "0cc22354-d011-4832-9110-7d53c950bb43",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_toggle_playback"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_next",
+            "id": "0e8cb7e4-b025-472c-b11c-25fe439577f1",
+            "method": "POST",
+            "name": "Next",
+            "responseHandling": {
+              "id": "84ffe403-3136-470a-8992-12844be1ce54",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_next_track"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_left_arrow",
+            "id": "d3cfd01c-a9eb-475c-a102-cf491fad2ee8",
+            "method": "POST",
+            "name": "Previous",
+            "responseHandling": {
+              "id": "ff214b3b-935d-46e7-a16b-6d1e41277eeb",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_prev_track"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_swap_right",
+            "id": "f29125d5-35ab-49a9-a9c3-a6b3f7c4273c",
+            "method": "POST",
+            "name": "Next Favorite",
+            "responseHandling": {
+              "id": "8347600b-678b-4c1c-a956-290cc297360b",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_next_fav"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_swap_left",
+            "id": "e41c7c0b-93cc-4419-b3c8-0e13aa23222a",
+            "method": "POST",
+            "name": "Previous Favorite",
+            "responseHandling": {
+              "id": "d8bcc391-4114-4bf2-bd3f-8e1be0578b50",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_prev_fav"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_volume_high",
+            "id": "3f417473-7cd1-4e52-9e7c-05927da6b422",
+            "method": "POST",
+            "name": "Volume Up",
+            "responseHandling": {
+              "id": "f6d3dfe0-c885-422f-82c7-a7fd8ca50840",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_volume_up"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "black_volume_low",
+            "id": "424cf6b4-d63b-42cf-aa68-68ba519b074c",
+            "method": "POST",
+            "name": "Volume Down",
+            "responseHandling": {
+              "id": "ef5315b1-0339-4b34-9f59-e13a5c1ddd29",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/media_volume_down"
+          }
+        ]
+      },
+      {
+        "id": "75ab1b26-8e5e-4244-8e64-1ae6f5867b8d",
+        "name": "Action",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "triggerShortcut(\"Wait Vehicle Till Online\");",
+            "iconName": "flat_color_steeringwheel",
+            "id": "c53930df-5dc5-480f-b42b-c4521bd302f0",
+            "launcherShortcut": true,
+            "method": "POST",
+            "name": "Wake Up",
+            "responseHandling": {
+              "id": "1b86fa95-4c32-4c2e-a089-b5136d12c77c",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/wake_up"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_megaphone",
+            "id": "a79c8600-a832-40c7-9219-2c256e36c9a5",
+            "method": "POST",
+            "name": "Honk Horn",
+            "responseHandling": {
+              "id": "33398a77-564e-4a29-9b94-7947cf427181",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/honk_horn"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_brightness_4",
+            "id": "a5de8160-2509-4b7e-bf0a-838eed373cb5",
+            "method": "POST",
+            "name": "Flash Lights",
+            "responseHandling": {
+              "id": "cc77c4d4-ac1b-40fa-a436-3432ef56e3fa",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/flash_lights"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\nshowToast(\"OK, start driving in two minutes please.\");",
+            "iconName": "flat_color_ufo",
+            "id": "37a1cd19-1880-468f-8535-61775ec06370",
+            "method": "POST",
+            "name": "Remote Start Drive",
+            "parameters": [
+              {
+                "id": "af243639-3b11-42a0-a8d1-4a23e7704890",
+                "key": "password",
+                "value": "{{dc4ca50d-6bfe-4d74-b3cf-1c115c314b10}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "requireConfirmation": true,
+            "responseHandling": {
+              "id": "9596ccfb-25ed-4144-857d-82fb3a722f0d",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/remote_start_drive"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_locked",
+            "id": "96bc242f-adca-4660-a8d1-e1b86b6562a8",
+            "launcherShortcut": true,
+            "method": "POST",
+            "name": "Door",
+            "responseHandling": {
+              "id": "e5d2cc7b-2ef5-46be-8374-74bb38415fa0",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/{{d70ebdd7-09d2-44dd-9690-fb80fa74080a}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_arrow_up",
+            "id": "7a445384-0b03-4445-9feb-18076ae508b4",
+            "launcherShortcut": true,
+            "method": "POST",
+            "name": "Frunk",
+            "parameters": [
+              {
+                "id": "bab953f8-56b4-4dce-aa89-18e519b9a78c",
+                "key": "which_trunk",
+                "value": "front"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "a1c71606-eb2e-4012-84fd-7b543cca32af",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/actuate_trunk"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_arrow_down",
+            "id": "71254904-1ec3-4d6d-b4e4-174487fadfe5",
+            "launcherShortcut": true,
+            "method": "POST",
+            "name": "Trunk",
+            "parameters": [
+              {
+                "id": "63926c43-5219-4e97-a2ba-ede1ea0cbc71",
+                "key": "which_trunk",
+                "value": "rear"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "611d32be-0655-4f8a-a4a9-3b7a34619beb",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/actuate_trunk"
+          }
+        ]
+      },
+      {
+        "id": "c6200b3e-9ee1-46e0-b4af-18aaa637e7ed",
+        "name": "Charging",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_pie_chart",
+            "id": "5f456efb-9717-43eb-ab4c-a65cb1d0fef9",
+            "name": "Charge State ",
+            "responseHandling": {
+              "id": "dbab633a-3caa-4dc5-8b83-a411cf60ebbe",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/charge_state"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_plugin",
+            "id": "af672b19-e1c7-4769-9392-e46f6c9c36ee",
+            "method": "POST",
+            "name": "Charge Port",
+            "responseHandling": {
+              "id": "fab60699-2149-4435-83a9-10fdcf68431b",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/{{0e2f3fc4-7426-4082-b705-8e3359e0faa0}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_bolt",
+            "id": "1ff1dc42-d623-46ee-9a17-ac636fc4076f",
+            "method": "POST",
+            "name": "Charge",
+            "responseHandling": {
+              "id": "7ff50c2e-fd41-4913-914d-78f039b47876",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/{{231185b6-4478-401f-ac4b-c9c336151423}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"Set Charging Limit to \" + getVariable(\"change_limit_config\") + \"\");",
+            "iconName": "flat_color_batteryfull",
+            "id": "5c237f17-f102-44ef-894e-34045e8f75f8",
+            "method": "POST",
+            "name": "Set Change Limit",
+            "parameters": [
+              {
+                "id": "d43c7c0d-d8bc-4142-ae79-82e6392e5754",
+                "key": "percent",
+                "value": "{{9bb173fa-20a5-4218-9f79-7444e54fa0f0}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "7b2c2215-1997-44cf-b48e-68ad3f72f303",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/set_charge_limit"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const loc \u003d JSON.parse(response.body).response;\nsendIntent({\n    type: \u0027activity\u0027,\n    action: \u0027android.intent.action.VIEW\u0027,\n    dataUri: \u0027baidumap://map/place/search?query\u003d特斯拉充电站\u0026location\u003d\u0027+loc.native_latitude+\u0027,\u0027+loc.native_longitude+\u0027\u0026coord_type\u003dgcj02\u0026src\u003dandr.baidu.openAPIdemo\u0027,\n});",
+            "iconName": "flat_color_pin",
+            "id": "0829f375-9d9d-4ee0-8cdb-7160b9e15cb6",
+            "name": "Charging Sites",
+            "responseHandling": {
+              "id": "acc7286e-e819-4830-b6f9-bbe7e0d4fe1e",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/drive_state"
+          }
+        ]
+      },
+      {
+        "id": "8246ab89-ad1b-4193-9557-02d070cde556",
+        "name": "Mode",
+        "shortcuts": [
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}\nconst sentry_mode \u003d getVariable(\u0027enable_sentry_mode\u0027);\nif (sentry_mode \u003d\u003d \u0027true\u0027) {\n    showToast(\u0027Sentry Mode Enabled.\u0027);\n} else {\n    showToast(\u0027Sentry Mode Disabled.\u0027);\n}",
+            "iconName": "flat_color_eye",
+            "id": "284a5e01-a5cf-4a21-a502-9c8909a8d14f",
+            "method": "POST",
+            "name": "Sentry Mode",
+            "parameters": [
+              {
+                "id": "13e8255e-7b7d-43cb-b7e5-ea371760adaa",
+                "key": "on",
+                "value": "{{f65c6cd5-33a5-4947-bc38-fd673bfbe92c}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "b66eb3a7-f60c-48e0-adfc-23985e80451f",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/set_sentry_mode"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnPrepare": "const limit \u003d getVariable(\u0027speed_limit_config\u0027);\nsetVariable(\u0027speed_limit_config\u0027, limit/1.609344);",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}\nshowToast(\u0027Speed Limit to \u0027 + limit + \u0027.\u0027);",
+            "iconName": "flat_color_speedometer",
+            "id": "e5893e65-f096-4fdd-a7e3-1f34f94d4015",
+            "method": "POST",
+            "name": "Set Speed Limit",
+            "parameters": [
+              {
+                "id": "dabc9c7f-42f8-4ca4-9e56-59653b0d7dd6",
+                "key": "limit_mph",
+                "value": "{{7b545fc7-86d0-496c-ad3b-d50eedcb1757}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "dd53beca-2d8e-4313-8aa8-5f050f6f5323",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/speed_limit_set_limit"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}\n\nconst cmd \u003d getVariable(\u0027enable_speed_limit\u0027);\nif (cmd \u003d\u003d \u0027speed_limit_activate\u0027) {\n    showToast(\u0027Speed Limit Mode Activated.\u0027);\n} else {\n    showToast(\u0027Speed Limit Mode Deactivated. \u0027);\n}",
+            "iconName": "flat_color_unicycle",
+            "id": "ae61f73f-02d3-4c15-b8c7-0be3d95058d6",
+            "method": "POST",
+            "name": "Speed Limit Mode",
+            "parameters": [
+              {
+                "id": "231e5c1b-41b9-41e0-a565-cabc1f93d373",
+                "key": "pin",
+                "value": "{{4ce160ea-739c-4c03-bbb0-c14d57cf255b}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "ef926644-1968-410f-a2f9-44606a4ddc72",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/{{ded6ca39-e82f-4695-8eb6-82c507624430}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}",
+            "iconName": "flat_color_magicwand",
+            "id": "7b48595a-65fd-4ccc-8045-98751cfb4a1d",
+            "method": "POST",
+            "name": "Clear Speed Limit Pin",
+            "parameters": [
+              {
+                "id": "8569b570-b3f1-4295-813d-c9d5e4f2424b",
+                "key": "pin",
+                "value": "{{4ce160ea-739c-4c03-bbb0-c14d57cf255b}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "requireConfirmation": true,
+            "responseHandling": {
+              "id": "212046d9-65d0-4511-a781-409799b8e1c7",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/speed_limit_clear_pin"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}\nconst v \u003d getVariable(\u0027valet_config\u0027);\nif (v \u003d\u003d \u0027true\u0027) {\n    showToast(\u0027Valet Mode Activated.\u0027);\n} else {\n    showToast(\u0027Valet Mode Deactivated. \u0027);\n}",
+            "iconName": "flat_color_running",
+            "id": "7da8b86c-e4ce-4bbc-acf8-591b3a79866e",
+            "method": "POST",
+            "name": "Valet Mode",
+            "parameters": [
+              {
+                "id": "7bb5f674-3665-45dc-b684-b4c7f7dc39e2",
+                "key": "password",
+                "value": "{{231c7670-4353-45d8-92f9-14e009fe6787}}"
+              },
+              {
+                "id": "c23b2ebb-4507-4f6e-9fe5-4621a552291d",
+                "key": "on",
+                "value": "{{6c331045-b532-42c7-a7c2-a58991a828e5}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "235f266b-4f06-4028-9abf-83d5fed16d22",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/set_valet_mode"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (resp.valet_mode \u003d\u003d false) {\n    triggerShortcut(\"Reset Valet PIN\");\n} else {\n    showToast(\u0027Fail: Valet mode is on.\u0027);\n}",
+            "iconName": "flat_color_magicwand",
+            "id": "77edc94a-0568-47cb-8a20-35d47f4b9c1b",
+            "name": "Clear Valet PIN",
+            "responseHandling": {
+              "id": "8ad4c3b5-7581-4eba-9da0-915126294dbf",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/data_request/vehicle_state"
+          }
+        ]
+      },
+      {
+        "id": "7cc17ded-f53e-4d43-aba0-81fe046e1288",
+        "name": "Utilities",
+        "shortcuts": [
+          {
+            "codeOnSuccess": "const token \u003d JSON.parse(response.body).access_token;\nsetVariable(\"tesla_token\", token);\nshowDialog(\u0027Token updated!\u0027,\u0027OK\u0027);\n\ntriggerShortcut(\"Vehicle Choose\");",
+            "iconName": "flat_color_key",
+            "id": "e73dfd44-576b-4a37-a52c-e5150aa7eff7",
+            "method": "POST",
+            "name": "Get Token",
+            "responseHandling": {
+              "id": "6138d69e-de3b-484e-863e-53d6cba0adea",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/oauth/token?grant_type\u003dpassword\u0026client_id\u003d{{8deaf144-f131-46b4-af8b-2e2f058b0a3f}}\u0026client_secret\u003d{{84f45859-6e68-4832-939d-64038b2e5d9f}}\u0026email\u003d{{c5256658-6643-4e05-934d-a1e48b59b0be}}\u0026password\u003d{{dc4ca50d-6bfe-4d74-b3cf-1c115c314b10}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response. body).response;\nif (resp.state \u003d\u003d \"online\") {\n    showToast(resp.display_name + \"Woken up!\");\n    abort();\n} else {\n    wait(5000);\n    triggerShortcut(\"Wait Vehicle Till Online\");\n}",
+            "iconName": "flat_color_loading",
+            "id": "70649e4b-c9ce-47b9-b220-bd537365f63b",
+            "name": "Wait Vehicle Till Online",
+            "responseHandling": {
+              "id": "1ebdb1c2-d95c-4725-9d52-ebabe7137d32",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_folder",
+            "id": "ab9a8708-7905-4274-bfb6-a0f786d49167",
+            "name": "Products",
+            "responseHandling": {
+              "id": "0f2fcaf4-97c7-491c-8b27-69a0c15f1d03",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/products"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_chat",
+            "id": "cb04b2a3-aebb-439b-a29c-80764ce3e196",
+            "name": "Messages",
+            "responseHandling": {
+              "id": "7a8d7275-6694-4bf4-acbf-7f62a8360186",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/messages"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_chat",
+            "id": "84a376dc-9a48-466d-a4a9-335eda15d6a9",
+            "name": "Messages Count",
+            "responseHandling": {
+              "id": "956eced1-89a9-4159-86a1-d56385427b31",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/messages/count"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_browser",
+            "id": "b419f4c1-aabe-4905-b25a-833329731589",
+            "name": "Vehicle Data",
+            "responseHandling": {
+              "id": "d26ebf6b-c8ff-475f-a354-126436a2d32b",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/vehicle_data"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_smartphone",
+            "id": "37680065-d6b2-4403-a461-ac3aa848c34b",
+            "name": "Mobile Enabled",
+            "responseHandling": {
+              "id": "1e53a3ae-05d0-4d40-8c01-f0212b6d49fe",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/mobile_enabled"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\u0027Fail: \u0027 + resp.reason + \u0027.\u0027);\n    abort();\n}\nshowToast(\"Valet PIN code reset.\");",
+            "iconName": "flat_color_magicwand",
+            "id": "f1f7ced5-1628-4285-8f29-302b047be939",
+            "method": "POST",
+            "name": "Reset Valet PIN",
+            "responseHandling": {
+              "id": "48208dec-3e44-4465-b4ee-429423076f0e",
+              "successOutput": "none",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/reset_valet_pin"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response.body).response;\nif (!resp.result) {\n    showToast(\"Fail: \" + resp.reason + \".\");\n    abort();\n}\n\nshowToast(\"OK\");",
+            "iconName": "flat_color_rocket",
+            "id": "0c344e21-a799-4b4f-ae85-1488fc618fd1",
+            "method": "POST",
+            "name": "Scheduling Upgrade",
+            "parameters": [
+              {
+                "id": "123eaf54-bfe9-47c5-9822-488dfaf47a6c",
+                "key": "offset_sec",
+                "value": "{{2dc2c031-90a6-410a-bc63-38a3fad7f12c}}"
+              }
+            ],
+            "requestBodyType": "form_data",
+            "responseHandling": {
+              "id": "c5fbeb38-4b17-466b-b9a7-469b64fe2bc7",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/command/schedule_software_update"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_tools",
+            "id": "f10ccf6a-f271-4d28-a994-af53f9aed6c4",
+            "name": "Service Data",
+            "responseHandling": {
+              "id": "cb5848e4-2b08-4201-964f-d72add5cd02c",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/service_data"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_tools",
+            "id": "e37ceac1-f040-4bf6-8156-ed54121eec47",
+            "name": "Onborading Data",
+            "responseHandling": {
+              "id": "3038367c-ca61-48d5-91ea-fcc4cb1748dc",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/users/onboarding_data"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_tools",
+            "id": "43af3957-fac8-4f85-8af8-cf6e392714c0",
+            "name": "Service Scheduling Data",
+            "responseHandling": {
+              "id": "e218e60f-6997-4365-9c49-001a0fed30de",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/users/service_scheduling_data"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_tools",
+            "id": "59254610-d8c3-4c00-8a6b-2f8644baf3d5",
+            "name": "Roadside Assistance Data",
+            "responseHandling": {
+              "id": "84a5141b-873e-403f-bdbf-16c3b818865d",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/users/roadside_assistance_data"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "codeOnSuccess": "const resp \u003d JSON.parse(response. body);\nsendIntent({ type: \"activity\", action: \"android.intent.action.VIEW\", dataUri: resp.purchase_url });",
+            "iconName": "flat_color_globe",
+            "id": "ff0f3b9f-ff0e-4ae6-be3f-69adf9777daa",
+            "name": "Upgrade Page",
+            "responseHandling": {
+              "id": "116364d1-3abb-4407-bb65-fe5021f64f19",
+              "successOutput": "none",
+              "uiType": "dialog"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/purchase_url?product\u003d{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}"
+          },
+          {
+            "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
+            "authentication": "bearer",
+            "iconName": "flat_color_location",
+            "id": "08d2dd28-c7fe-4745-b153-2214ffa45164",
+            "name": "Nearby Charging Sites",
+            "responseHandling": {
+              "id": "763d2ab0-b949-4706-bbe0-74e62a485a75",
+              "uiType": "window"
+            },
+            "url": "{{37a2b857-081b-4e48-8b94-23988cca79ac}}/api/1/vehicles/{{f4456f82-74d2-441f-9f54-dacdb4adb9b5}}/nearby_charging_sites"
+          }
+        ]
+      }
+    ],
+    "title": "TESLA",
+    "variables": [
+      {
+        "id": "37a2b857-081b-4e48-8b94-23988cca79ac",
+        "key": "tesla_base_url",
+        "value": "https://owner-api.teslamotors.com"
+      },
+      {
+        "id": "8deaf144-f131-46b4-af8b-2e2f058b0a3f",
+        "key": "tesla_client_id",
+        "value": "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384"
+      },
+      {
+        "id": "84f45859-6e68-4832-939d-64038b2e5d9f",
+        "key": "tesla_client_secret",
+        "value": "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3"
+      },
+      {
+        "id": "c5256658-6643-4e05-934d-a1e48b59b0be",
+        "key": "tesla_account_email",
+        "title": "E-mail",
+        "type": "text"
+      },
+      {
+        "id": "dc4ca50d-6bfe-4d74-b3cf-1c115c314b10",
+        "key": "tesla_account_password",
+        "title": "Password",
+        "type": "password"
+      },
+      {
+        "id": "23e2a91e-7350-46d7-bef4-d892d221dc5d",
+        "key": "tesla_token",
+        "value": ""
+      },
+      {
+        "id": "f4456f82-74d2-441f-9f54-dacdb4adb9b5",
+        "key": "tesla_vehicle_id",
+        "value": ""
+      },
+      {
+        "data": "{\"slider\":{\"max\":\"140\",\"min\":\"80\",\"step\":\"5\"}}",
+        "id": "7b545fc7-86d0-496c-ad3b-d50eedcb1757",
+        "key": "speed_limit_config",
+        "title": "Speed Limit (km/h)",
+        "type": "slider"
+      },
+      {
+        "id": "f65c6cd5-33a5-4947-bc38-fd673bfbe92c",
+        "key": "enable_sentry_mode",
+        "options": [
+          {
+            "id": "d84db9fc-a924-4ef9-9439-710e9a7433c2",
+            "label": "Enable",
+            "value": "true"
+          },
+          {
+            "id": "a9f1fe98-98a3-4403-a799-8778db9c20e6",
+            "label": "Disable",
+            "value": "false"
+          }
+        ],
+        "title": "Sentry Mode",
+        "type": "select",
+        "value": "false"
+      },
+      {
+        "id": "ded6ca39-e82f-4695-8eb6-82c507624430",
+        "key": "enable_speed_limit",
+        "options": [
+          {
+            "id": "d0a96fe3-5f4d-44f4-bca7-6653f9c39709",
+            "label": "Activate",
+            "value": "speed_limit_activate"
+          },
+          {
+            "id": "984a270c-0075-4ddd-b6ab-694b8caf8dd3",
+            "label": "Deactivate",
+            "value": "speed_limit_deactivate"
+          }
+        ],
+        "title": "Speed Limit Mode",
+        "type": "select",
+        "value": "speed_limit_deactivate"
+      },
+      {
+        "data": "{\"slider\":{\"max\":\"26\",\"min\":\"18\",\"step\":\"1\"}}",
+        "id": "80fd801c-78f4-4173-96e9-8f46827ae413",
+        "key": "temperature_config",
+        "title": "Temperature",
+        "type": "slider"
+      },
+      {
+        "id": "e7d3293b-ba05-40fb-9c88-bd48fe7aad75",
+        "key": "ac_config",
+        "options": [
+          {
+            "id": "d5304dc1-8769-4fad-a530-46c5c05662fb",
+            "label": "On",
+            "value": "auto_conditioning_start"
+          },
+          {
+            "id": "f4d4ab17-3e06-448c-a032-ffe528e85186",
+            "label": "Off",
+            "value": "auto_conditioning_stop"
+          }
+        ],
+        "title": "AC",
+        "type": "select",
+        "value": "auto_conditioning_start"
+      },
+      {
+        "id": "c043aa3a-14d8-44d2-b566-eff8957d4e75",
+        "key": "defrost_config",
+        "options": [
+          {
+            "id": "4151c446-b25f-4c62-9978-6014b302089d",
+            "label": "On",
+            "value": "true"
+          },
+          {
+            "id": "6dcde209-8aa7-4445-ba8e-2dcbc60794dc",
+            "label": "Off",
+            "value": "false"
+          }
+        ],
+        "title": "Defrost",
+        "type": "select",
+        "value": "false"
+      },
+      {
+        "id": "d70ebdd7-09d2-44dd-9690-fb80fa74080a",
+        "key": "door_config",
+        "options": [
+          {
+            "id": "b6c3430f-5b08-408b-a1b1-29a5e5e53a3d",
+            "label": "Lock",
+            "value": "door_lock"
+          },
+          {
+            "id": "130badf4-3b31-4a6f-b74b-8c3d8001d377",
+            "label": "Unlock",
+            "value": "door_unlock"
+          }
+        ],
+        "title": "Door",
+        "type": "select",
+        "value": "door_lock"
+      },
+      {
+        "id": "6c331045-b532-42c7-a7c2-a58991a828e5",
+        "key": "valet_config",
+        "options": [
+          {
+            "id": "6a1001b2-1197-4f0b-8c96-af26281d4a94",
+            "label": "Enable",
+            "value": "true"
+          },
+          {
+            "id": "1f45e69f-c087-4109-b668-317fa483e93e",
+            "label": "Disable",
+            "value": "false"
+          }
+        ],
+        "title": "Valet_mode",
+        "type": "select",
+        "value": "false"
+      },
+      {
+        "id": "231c7670-4353-45d8-92f9-14e009fe6787",
+        "key": "valte_pin",
+        "title": "Valet PIN",
+        "type": "password"
+      },
+      {
+        "id": "4ce160ea-739c-4c03-bbb0-c14d57cf255b",
+        "key": "pin_code",
+        "title": "PIN code",
+        "type": "password"
+      },
+      {
+        "id": "0e2f3fc4-7426-4082-b705-8e3359e0faa0",
+        "key": "charge_port_config",
+        "options": [
+          {
+            "id": "9cd0f48a-0073-4e88-92c4-429e273af346",
+            "label": "Open",
+            "value": "charge_port_door_open"
+          },
+          {
+            "id": "d3bf221d-5837-43fe-a056-33c9940d17a5",
+            "label": "Close",
+            "value": "charge_port_door_close"
+          }
+        ],
+        "title": "Change Port",
+        "type": "select",
+        "value": "charge_port_door_close"
+      },
+      {
+        "id": "231185b6-4478-401f-ac4b-c9c336151423",
+        "key": "charge_config",
+        "options": [
+          {
+            "id": "3de1babf-b878-477f-abce-04ef2d2c60aa",
+            "label": "Start",
+            "value": "charge_start"
+          },
+          {
+            "id": "e55441ad-36cf-41f8-a72e-cfd72a688289",
+            "label": "Stop",
+            "value": "charge_stop"
+          }
+        ],
+        "title": "Charge",
+        "type": "select",
+        "value": "charge_start"
+      },
+      {
+        "data": "{\"slider\":{\"max\":\"100\",\"min\":\"0\",\"step\":\"5\"}}",
+        "id": "9bb173fa-20a5-4218-9f79-7444e54fa0f0",
+        "key": "change_limit_config",
+        "title": "Change Limit (%)",
+        "type": "slider"
+      },
+      {
+        "id": "2dc2c031-90a6-410a-bc63-38a3fad7f12c",
+        "key": "upgrade_offset",
+        "options": [
+          {
+            "id": "ab39b7aa-405a-4238-8436-ee5b79614163",
+            "label": "Now",
+            "value": "0"
+          },
+          {
+            "id": "fb96ac70-43ab-4711-9f6a-1c97030e27ab",
+            "label": "10 Minutes Later",
+            "value": "600"
+          },
+          {
+            "id": "5f531908-a133-44f2-85f7-f980619ce070",
+            "label": "20 Minutes Later",
+            "value": "1200"
+          }
+        ],
+        "title": "Scheduling",
+        "type": "select",
+        "value": "0"
+      }
+    ],
+    "version": 41
+  }
