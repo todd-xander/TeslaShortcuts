@@ -328,7 +328,7 @@
         {
           "authToken": "{{23e2a91e-7350-46d7-bef4-d892d221dc5d}}",
           "authentication": "bearer",
-          "codeOnSuccess": "const loc \u003d JSON.parse(response.body).response;\nsendIntent({\n    type: \u0027activity\u0027,\n    action: \u0027android.intent.action.VIEW\u0027,\n    dataUri: \u0027baidumap://map/marker?location\u003d\u0027+loc.native_latitude+\u0027,\u0027+loc.native_longitude+\u0027\u0026coord_type\u003dgcj02\u0026title\u003dmodel3\u0026traffic\u003don\u0026src\u003dandr.baidu.openAPIdemo\u0027,\n});",
+          "codeOnSuccess": "const loc \u003d JSON.parse(response.body).response;\nsendIntent({\n    type: \u0027activity\u0027,\n    action: \u0027android.intent.action.VIEW\u0027,\n    dataUri: \u0027baidumap://map/geocoder?location\u003d\u0027+loc.native_latitude+\u0027,\u0027+loc.native_longitude+\u0027\u0026coord_type\u003dgcj02\u0027,\n});",
           "iconName": "flat_color_compass",
           "id": "aca3929c-b936-4140-888b-88594a6feaba",
           "name": "Location State",
